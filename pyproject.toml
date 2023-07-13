@@ -17,6 +17,16 @@ black = "^23.7.0"
 mypy = "^1.4.1"
 isort = "^5.12.0"
 
+
+[tool.poetry.group.rich.dependencies]
+rich = "^13.4.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.black]
+line-length = 120
