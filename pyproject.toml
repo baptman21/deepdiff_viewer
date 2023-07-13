@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "deepdiff-viewer"
+version = "0.1.0"
+description = "Viewer tools for the `DeepDiff` object of the `deepdiff` library."
+authors = ["Baptiste Bourdet <bat.bourdet@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "deepdiff_viewer"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+deepdiff = "^6.3.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+black = "^23.7.0"
+mypy = "^1.4.1"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
