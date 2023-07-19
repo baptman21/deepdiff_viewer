@@ -171,6 +171,27 @@ def test_compute_with_objects():
     assert viewer.index["['b']"].diff_type == DiffType.MODIFIED
 
 
+def test_compute_with_multiline():
+    """Compare the two multiline text"""
+
+    t1: str = """hello
+    there
+    !
+    general
+    kenobi
+    """
+    t2: str = """hello
+    world
+    general
+    kenobi
+    """
+
+    ddiff = DeepDiff(t1, t2, view="tree")
+    viewer = TestViewer(ddiff)
+
+    assert viewer.root.diff_type == DiffType.MODIFIED
+
+
 def test_compute_not_tree_view():
     with pytest.raises(AttributeError, match="`tree` view"):
         ddiff = DeepDiff(None, None)

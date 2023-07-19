@@ -71,6 +71,13 @@ class RichViewer(DeepDiffTreeViewer):
 
     @staticmethod
     def _render_diff_level(node: TreeNode, diff_level: DiffLevel) -> str | Any:
+        # Special case for text diff
+        if diff_level.additional and "diff" in diff_level.additional:
+            return Panel(
+                Syntax(diff_level.additional["diff"], "diff"),
+                title=RichViewer._render_node_name(node),
+                expand=False,
+            )
         # Special case for the set to make the diff more redable
         if diff_level.report_type == "set_item_added":
             return Columns(

@@ -107,3 +107,23 @@ def test_render_rich_with_objects():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = RichViewer(ddiff)
     print(viewer.render())
+
+
+def test_compute_with_multiline():
+    """Compare the two multiline text"""
+
+    t1: str = """hello
+    there
+    !
+    general
+    kenobi
+    """
+    t2: str = """hello
+    world
+    general
+    kenobi
+    """
+
+    ddiff = DeepDiff(t1, t2, view="tree")
+    viewer = RichViewer(ddiff)
+    print(viewer.render())
