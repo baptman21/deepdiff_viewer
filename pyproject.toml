@@ -20,6 +20,12 @@ isort = "^5.12.0"
 
 [tool.poetry.group.rich.dependencies]
 rich = "^13.4.2"
+pyyaml = "^6.0.1"
+
+
+[tool.poetry.group.tmp.dependencies]
+pydantic = "^2.0.3"
+pyyaml = "^6.0.1"
 
 [build-system]
 requires = ["poetry-core"]
