@@ -29,13 +29,20 @@ class DiffType(Enum):
 
 @dataclass
 class TreeNode:
+    # Key in the index, str of the full path
     key: str
+    # Name of the current node, not the key
+    name: str
+    # Path computed by DeepDiff, can be used to find the parent
     path: List[str]
 
+    # Diffs for this node, leaf node
     diff_levels: List[DiffLevel] = field(default_factory=list)
 
+    # Type of the node. If it has children it will represent the combination of all its children diff type.
     diff_type: DiffType = DiffType.UNCHANGED
 
+    # Children of the node, the key of the dict is the name, not the full key.
     children: Dict[str, "TreeNode"] = field(default_factory=dict)
 
     def add_level(self, type: DiffType, level: DiffLevel):
@@ -58,7 +65,7 @@ class DeepDiffTreeViewer(ABC):
     def __init__(self, ddiff: DeepDiff):
         # TODO: process the ddiff
         self.index = {}
-        self.index["root"] = TreeNode("root", [])
+        self.index["root"] = TreeNode("root", "root", [])
         self.root = self.index["root"]
 
         self._compute_tree(ddiff)
@@ -72,7 +79,7 @@ class DeepDiffTreeViewer(ABC):
             current.append(elem)
             key = str(current)
             if key not in self.index:
-                self.index[key] = TreeNode(key=key, path=list(current))
+                self.index[key] = TreeNode(key=key, name=elem, path=list(current))
                 self.index[parent].children[elem] = self.index[key]
 
     def _update_parents(self, path: List[str], type: DiffType):
