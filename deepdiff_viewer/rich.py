@@ -49,14 +49,14 @@ class RichViewer(DeepDiffTreeViewer):
         if isinstance(value, dict):
             return Panel.fit(
                 Syntax(yaml.dump(value), "yaml"),
-                title=Text("+ Added", "green") if was_value_added else Text("Removed", "red"),
+                title=Text("+ Added", "green") if was_value_added else Text("- Removed", "red"),
                 border_style=("green" if was_value_added else "red"),
             )
         if _as_pydantic_:
             if isinstance(value, BaseModel):
                 return Panel.fit(
                     Syntax(yaml.dump(value.model_dump()), "yaml"),
-                    title=Text("+ Added", "green") if was_value_added else Text("Removed", "red"),
+                    title=Text("+ Added", "green") if was_value_added else Text("- Removed", "red"),
                     border_style=("green" if was_value_added else "red"),
                 )
         if isinstance(value, datetime):
