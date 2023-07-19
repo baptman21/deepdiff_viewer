@@ -10,6 +10,8 @@ packages = [{include = "deepdiff_viewer"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 deepdiff = "^6.3.1"
+rich = {version = "^13.4.2", optional = true}
+pyyaml = {version = "^6.0.1", optional = true}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
@@ -18,19 +20,12 @@ mypy = "^1.4.1"
 isort = "^5.12.0"
 types-pyyaml = "^6.0.12.10"
 
-
-[tool.poetry.group.rich.dependencies]
-rich = "^13.4.2"
-pyyaml = "^6.0.1"
-
-
-[tool.poetry.group.tmp.dependencies]
-pydantic = "^2.0.3"
-pyyaml = "^6.0.1"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.extras]
+rich = ["rich", "pyyaml"]
 
 [tool.ruff]
 line-length = 120
