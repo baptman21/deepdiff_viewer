@@ -55,6 +55,9 @@ class TreeNode:
         self.diff_type = DiffType.combine(self.diff_type, type)
 
 
+_ROOT_KEY: str = "[]"
+
+
 class DeepDiffTreeViewer(ABC):
     """Object processing a DeepDiff object to render it in a specific format."""
 
@@ -65,15 +68,15 @@ class DeepDiffTreeViewer(ABC):
     def __init__(self, ddiff: DeepDiff):
         # TODO: process the ddiff
         self.index = {}
-        self.index["root"] = TreeNode("root", "root", [])
-        self.root = self.index["root"]
+        self.index[_ROOT_KEY] = TreeNode(_ROOT_KEY, "root", [])
+        self.root = self.index[_ROOT_KEY]
 
         self._compute_tree(ddiff)
 
     def _add_missing_nodes(self, path: List[str]):
         """Add missing nodes to the tree."""
         current: List[str] = []
-        key = "root"
+        key = _ROOT_KEY
         for elem in path:
             parent: str = key
             current.append(elem)

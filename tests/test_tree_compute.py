@@ -26,12 +26,13 @@ def test_compute():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert "root" in viewer.index
+    assert "[]" in viewer.index
 
     root_a_key = "['a']"
     assert root_a_key in viewer.index
 
-    assert viewer.root.key == "root"
+    assert viewer.root.key == "[]"
+    assert viewer.root.name == "root"
     assert len(viewer.root.children) == 1
 
     root_a = viewer.root.children["a"]
@@ -52,7 +53,7 @@ def test_compute_deep():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert "root" in viewer.index
+    assert "[]" in viewer.index
 
     for key in ["['a']", "['a', 'b']", "['a', 'b', 'c']"]:
         assert key in viewer.index
@@ -76,8 +77,19 @@ def test_compute_with_list():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.DELETION
+
+
+def test_compute_at_root():
+    """Changes of the elements themselves"""
+
+    t1: int = 42
+    t2: int = 21
+
+    ddiff = DeepDiff(t1, t2, view="tree")
+    viewer = TestViewer(ddiff)
+
+    assert viewer.root.diff_type == DiffType.MODIFIED
 
 
 def test_compute_with_same():
@@ -89,7 +101,6 @@ def test_compute_with_same():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.UNCHANGED
 
 
@@ -102,7 +113,6 @@ def test_compute_remove_from_dict():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.DELETION
 
 
@@ -115,7 +125,6 @@ def test_compute_change_type():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.MODIFIED
 
 
@@ -128,7 +137,6 @@ def test_compute_dict_to_list():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.MODIFIED
 
 
@@ -141,7 +149,6 @@ def test_compute_with_sets():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.DELETION
 
 
@@ -159,7 +166,6 @@ def test_compute_with_objects():
     ddiff = DeepDiff(t1, t2, view="tree")
     viewer = TestViewer(ddiff)
 
-    assert viewer.root.key == "root"
     assert viewer.root.diff_type == DiffType.MODIFIED
     assert viewer.index["['a']"].diff_type == DiffType.MODIFIED
     assert viewer.index["['b']"].diff_type == DiffType.MODIFIED
