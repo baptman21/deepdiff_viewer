@@ -34,7 +34,7 @@ def test_compute():
     assert viewer.root.key == "root"
     assert len(viewer.root.children) == 1
 
-    root_a = viewer.root.children[root_a_key]
+    root_a = viewer.root.children["a"]
 
     assert root_a.key == root_a_key
     assert len(root_a.children) == 0
@@ -63,6 +63,8 @@ def test_compute_deep():
         assert viewer.index[key].diff_type == DiffType.ADDITION
 
     assert viewer.root.diff_type == DiffType.MODIFIED
+    assert viewer.root.children["b"].children["b"].children["b"].diff_type == DiffType.ADDITION
+    assert len(viewer.root.children["b"].children["b"].children["b"].diff_levels) == 1
 
 
 def test_compute_with_list():

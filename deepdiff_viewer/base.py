@@ -73,13 +73,14 @@ class DeepDiffTreeViewer(ABC):
             key = str(current)
             if key not in self.index:
                 self.index[key] = TreeNode(key=key, path=list(current))
-                self.index[parent].children[key] = self.index[key]
+                self.index[parent].children[elem] = self.index[key]
 
     def _update_parents(self, path: List[str], type: DiffType):
         """Update the status of parents of a node"""
-        for i in range(len(path) - 1, 0, -1):
-            parent = str(path[:i])
-            self.index[parent].update_type(type)
+        current = self.root
+        for elem in path:
+            current = current.children[elem]
+            current.update_type(type)
 
     def _compute_tree(self, ddiff: DeepDiff):
         if ddiff.view != TREE_VIEW:
@@ -99,7 +100,7 @@ class DeepDiffTreeViewer(ABC):
             self.root.diff_type = DiffType.combine(self.root.diff_type, diff_type)
 
             for diff_level in dvalues:
-                path: List[str] = diff_level.path(output_format="list")  # type: ignore
+                path: List[str] = [str(e) for e in diff_level.path(output_format="list")]  # type: ignore
                 self._add_missing_nodes(path)
                 key = str(path)
 
