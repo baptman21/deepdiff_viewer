@@ -39,8 +39,13 @@ class TreeNode:
     children: Dict[str, "TreeNode"] = field(default_factory=dict)
 
     def add_level(self, type: DiffType, level: DiffLevel):
-        self.diff_type = DiffType.combine(self.diff_type, type)
+        """Add a diff level to the current node, this means that this node contains a direct change (value change)."""
+        self.update_type(type)
         self.diff_levels.append(level)
+
+    def update_type(self, type: DiffType):
+        """Update the type of a node by combine it with the current type."""
+        self.diff_type = DiffType.combine(self.diff_type, type)
 
 
 class DeepDiffTreeViewer(ABC):
@@ -70,14 +75,18 @@ class DeepDiffTreeViewer(ABC):
                 self.index[key] = TreeNode(key=key, path=list(current))
                 self.index[parent].children[key] = self.index[key]
 
+    def _update_parents(self, path: List[str], type: DiffType):
+        """Update the status of parents of a node"""
+        for i in range(len(path) - 1, 0, -1):
+            parent = str(path[:i])
+            self.index[parent].update_type(type)
+
     def _compute_tree(self, ddiff: DeepDiff):
         if ddiff.view != TREE_VIEW:
             raise AttributeError("DeepDiff object must use `tree` view to use the TreeViewer")
         dtype: str
         dvalues: List[DiffLevel]
         for dtype, dvalues in ddiff.items():
-            if dtype in ["set_item_removed", "set_item_added"]:
-                continue
             diff_type = DiffType.UNCHANGED
             if "change" in dtype:
                 diff_type = DiffType.MODIFIED
@@ -95,6 +104,7 @@ class DeepDiffTreeViewer(ABC):
                 key = str(path)
 
                 self.index[key].add_level(diff_type, diff_level)
+                self._update_parents(path, diff_type)
 
     @abstractmethod
     def render(self) -> str | Any:
