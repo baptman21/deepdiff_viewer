@@ -119,7 +119,7 @@ def test_compute_change_type():
     assert viewer.root.diff_type == DiffType.MODIFIED
 
 
-def test_compute_list_to_dict():
+def test_compute_dict_to_list():
     """Compare the two list"""
 
     t1: Dict = {"a": {"x": 1, "y": [1, 2]}}

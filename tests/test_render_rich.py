@@ -71,7 +71,7 @@ def test_render_rich_change_type():
     print(viewer.render())
 
 
-def test_render_rich_list_to_dict():
+def test_render_rich_dict_to_list():
     """Compare the two list"""
 
     t1: Dict = {"a": {"x": 1, "y": [1, 2]}}
