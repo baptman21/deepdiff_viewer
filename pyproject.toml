@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "deepdiff-viewer"
-version = "0.1.0"
+version = "0.1.1"
 description = "Viewer tools for the `DeepDiff` object of the `deepdiff` library."
 authors = ["Baptiste Bourdet <bat.bourdet@gmail.com>"]
 license = "MIT"

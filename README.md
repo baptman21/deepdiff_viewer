@@ -31,13 +31,31 @@ viewer = RichViewer(ddiff)
 print(viewer.render())
 ```
 
+### Pydantic support
+
+If you use [`pydantic`](https://docs.pydantic.dev/latest/) for your models, the
+`RichViewer` will use the `model_dump` function to render the model in a `yaml`
+format when you add or delete new object. Otherwise the render would show you
+the python class and not a pretty render of the object.
+
+Note that `pydantic` is not a dependency of the project but will be imported if
+it is found.
+
 ## Examples
 
 See the [examples/](./examples) folder.
 
+### Simple
+
 ![simple](./images/simple.png)
 
+### Complex
+
 ![complex](./images/complex.png)
+
+### With Pydantic
+
+![with_pydantic](./images/with_pydantic.png)
 
 ## Concepts
 
