@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Set
 
-from deepdiff import DeepDiff
+from deepdiff import DeepDiff  # type: ignore
 from rich import print
 
 from deepdiff_viewer.rich import RichViewer
